@@ -4,6 +4,8 @@ import { useNotesStore } from '~/stores/notes'
 
 const store = useNotesStore()
 
+store.hydrate()
+
 const noteIdToRemove = ref<string | null>(null)
 
 const noteToRemove = computed(() =>

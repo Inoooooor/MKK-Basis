@@ -13,6 +13,10 @@ type Dialog = 'none' | 'cancel' | 'delete' | 'restore' | 'orphan'
 const route = useRoute()
 const store = useNotesStore()
 
+// Состояние поднимается плагином при старте приложения; повторный вызов
+// ничего не делает и снимает зависимость от порядка плагинов.
+store.hydrate()
+
 const noteId = String(route.params.id)
 const isNew = noteId === 'new'
 const savedNote = isNew ? null : store.byId(noteId)
@@ -185,8 +189,10 @@ function confirmDelete(): void {
 function restoreDraft(): void {
   if (pendingDraft.value) {
     // Точкой отсчёта остаётся сохранённая заметка: восстановленный черновик
-    // считается несохранённым изменением.
-    editor.reset(pendingDraft.value.note, baseNote)
+    // считается несохранённым изменением. Идентификатор берётся из черновика —
+    // у новой заметки он свой, и иначе сравнение содержимого всегда давало бы
+    // «изменено».
+    editor.reset(pendingDraft.value.note, { ...baseNote, id: pendingDraft.value.note.id })
   }
 
   pendingDraft.value = null

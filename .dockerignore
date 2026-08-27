@@ -1,0 +1,11 @@
+node_modules
+.nuxt
+.output
+.git
+.github
+.claude
+.agents
+skills-lock.json
+coverage
+*.log
+*.pdf

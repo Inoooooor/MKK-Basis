@@ -1,0 +1,8 @@
+services:
+  app:
+    build: .
+    image: notes-app
+    container_name: notes-app
+    ports:
+      - "8080:80"
+    restart: unless-stopped
