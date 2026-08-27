@@ -75,3 +75,27 @@ export function todoStats(note: Note): TodoStats {
     total: note.todos.length,
   }
 }
+
+/** Сколько пунктов Todo показывается в карточке на главной странице. */
+export const PREVIEW_TODO_LIMIT = 3
+
+export interface NotePreview {
+  todos: TodoItem[]
+  hiddenCount: number
+  stats: TodoStats
+}
+
+/**
+ * Сокращённое представление заметки для списка.
+ *
+ * Обрезка сделана здесь, а не в CSS: так количество скрытых пунктов известно
+ * приложению, лишние элементы не попадают в разметку, а правило покрывается
+ * обычным unit-тестом.
+ */
+export function previewNote(note: Note, limit: number = PREVIEW_TODO_LIMIT): NotePreview {
+  return {
+    todos: note.todos.slice(0, limit),
+    hiddenCount: Math.max(0, note.todos.length - limit),
+    stats: todoStats(note),
+  }
+}

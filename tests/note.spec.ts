@@ -5,6 +5,7 @@ import {
   createTodo,
   haveSameContent,
   normalizeForSave,
+  previewNote,
   todoStats,
 } from '~/core/note'
 import { makeNote, makeTodo } from './factories'
@@ -82,6 +83,25 @@ describe('операции над заметкой', () => {
     const shorter = cloneNote(note)
     shorter.todos.pop()
     expect(haveSameContent(note, shorter)).toBe(false)
+  })
+
+  it('карточка показывает три пункта и число скрытых', () => {
+    const note = makeNote({
+      todos: Array.from({ length: 7 }, (_, index) => makeTodo({ id: `t${index}`, done: index < 2 })),
+    })
+
+    const preview = previewNote(note)
+
+    expect(preview.todos.map(todo => todo.id)).toEqual(['t0', 't1', 't2'])
+    expect(preview.hiddenCount).toBe(4)
+    expect(preview.stats).toEqual({ done: 2, total: 7 })
+  })
+
+  it('короткий список показывается целиком, скрытых пунктов нет', () => {
+    const preview = previewNote(makeNote({ todos: [makeTodo({ id: 'a' })] }))
+
+    expect(preview.todos).toHaveLength(1)
+    expect(preview.hiddenCount).toBe(0)
   })
 
   it('счётчик выполненных пунктов', () => {
