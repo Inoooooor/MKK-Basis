@@ -1,0 +1,14 @@
+node_modules
+.nuxt
+.output
+.data
+dist
+.env
+*.log
+.DS_Store
+coverage
+
+# Локальный тулинг, не относящийся к приложению
+.claude/
+.agents/
+skills-lock.json
