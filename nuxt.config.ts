@@ -9,6 +9,9 @@ export default defineNuxtConfig({
 
   modules: ['@pinia/nuxt'],
 
+  // Без префикса по каталогу: components/ui/BaseModal.vue — это <BaseModal>.
+  components: [{ path: '~/components', pathPrefix: false }],
+
   css: ['~/assets/styles/main.scss'],
 
   typescript: {

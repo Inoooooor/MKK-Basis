@@ -25,6 +25,7 @@ export default ts.config(
       // идентификаторы всё равно ловит TypeScript.
       'no-undef': 'off',
       'vue/multi-word-component-names': 'off',
+      'vue/max-attributes-per-line': ['error', { singleline: 4, multiline: 1 }],
       '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
     },
   },
