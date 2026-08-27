@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useId } from 'vue'
+import { ref, useId } from 'vue'
 
 withDefaults(defineProps<{
   modelValue: string
@@ -20,6 +20,11 @@ const emit = defineEmits<{
 }>()
 
 const inputId = useId()
+const input = ref<HTMLInputElement | null>(null)
+
+defineExpose({
+  focus: () => input.value?.focus(),
+})
 
 /**
  * Значение не связано через v-model напрямую: страница редактирования должна
@@ -40,6 +45,7 @@ function onInput(event: Event): void {
     >{{ label }}</label>
     <input
       :id="inputId"
+      ref="input"
       :value="modelValue"
       :placeholder="placeholder"
       class="field__input"
